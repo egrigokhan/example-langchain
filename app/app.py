@@ -3,7 +3,6 @@ from src.index import query
 
 app = Flask(__name__)
 
-
 @app.route('/query', methods=['POST'])
 def handle_query():
     message = request.json['msg']
