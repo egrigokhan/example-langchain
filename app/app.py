@@ -1,16 +1,25 @@
 from flask import Flask, request, jsonify
-from src.index import query
+from src.index import run, setup
 
 app = Flask(__name__)
+
 
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/query', methods=['POST'])
-def handle_query():
+
+@app.route('/setup', methods=['POST'])
+def handle_setup():
+    config = request.json['config']
+    response = setup(config)
+    return jsonify({"success": True, "message": response})
+
+
+@app.route('/run', methods=['POST'])
+def handle_run():
     message = request.json['msg']
-    response = query(message)
+    response = run(message)
     return jsonify(response)
 
 

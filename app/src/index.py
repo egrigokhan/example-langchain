@@ -46,8 +46,8 @@ def get_github_docs(repo_owner, repo_name):
                 yield Document(page_content=f.read(), metadata={"source": github_url})
 
 
-def source_docs():
-    return list(get_github_docs("hwchase17", "langchain"))
+def source_docs(github_repo):
+    return list(get_github_docs(github_repo.split("/")[0], github_repo.split("/")[1]))
 
 
 def search_index(source_docs):
@@ -80,8 +80,8 @@ def print_answer(question):
 # Commented out IPython magic to ensure Python compatibility.
 # %env OPENAI_API_KEY=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
 
-
-search_index(source_docs())
-
-def query(msg):
+def run(msg):
     return print_answer(msg)
+
+def setup(config):
+    search_index(source_docs(config["github_repo"]))
